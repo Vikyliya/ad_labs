@@ -2,7 +2,11 @@ from spyre import server
 import pandas as pd
 import matplotlib.pyplot as plt
 
+<<<<<<< HEAD
 class DataAnalysisApp(server.App):
+=======
+class StockExample(server.App):
+>>>>>>> 7a0d049b59c8aa06a9b0418caef091b6f8a7ea4d
     title = "NOAA data vizualization"
 
     inputs = [
@@ -13,7 +17,11 @@ class DataAnalysisApp(server.App):
                 {"label": "VCI", "value": "VCI"},
                 {"label": "TCI", "value": "TCI"},
                 {"label": "VHI", "value": "VHI"}],
+<<<<<<< HEAD
             "key": "ticker",
+=======
+            "key": "data_type",
+>>>>>>> 7a0d049b59c8aa06a9b0418caef091b6f8a7ea4d
             "action_id": "update_data"},
         
         {
@@ -59,7 +67,11 @@ class DataAnalysisApp(server.App):
         
         {
             "type":'slider',
+<<<<<<< HEAD
             "label": 'Select year',
+=======
+            "label": 'Select year:',
+>>>>>>> 7a0d049b59c8aa06a9b0418caef091b6f8a7ea4d
             "min" : 1981,
             "max" : 2023,
             "key": 'year',
@@ -79,6 +91,7 @@ class DataAnalysisApp(server.App):
                     "tab": "Table",
                     "on_page_load": True}]
 
+<<<<<<< HEAD
     def getData(self, params):
         df = pd.read_csv('combined_data.csv')
         region = params['region']
@@ -92,6 +105,21 @@ class DataAnalysisApp(server.App):
         return df[['Year', 'Week', 'SMN', 'SMT', 'VCI', 'TCI', 'VHI']]
 
     def getRegionList(self, region):
+=======
+    def g_Table(self, params):
+        data_region = params['region']
+        data_range = params['range']
+        data_year = params['year']
+
+        df = pd.read_csv('combined_data.csv')
+        df = df[df['area'] == int(data_region)]
+        start_week, end_week = map(int, data_range.split('-'))
+        df = df[(df['Week'] >= start_week) & (df['Week'] <= end_week) & (df['Year'] == int(data_year))]
+
+        return df[['Year', 'Week', 'SMN', 'SMT', 'VCI', 'TCI', 'VHI']]
+
+    def Data_Region_List(self, data_region):
+>>>>>>> 7a0d049b59c8aa06a9b0418caef091b6f8a7ea4d
         region_list = {
             "1": "Вінничини",
             "2": "Волині",
@@ -121,11 +149,16 @@ class DataAnalysisApp(server.App):
             "26": "Києва",
             "27": "Севастополя"
         }
+<<<<<<< HEAD
         return region_list.get(region, "")
+=======
+        return region_list.get(data_region, "")
+>>>>>>> 7a0d049b59c8aa06a9b0418caef091b6f8a7ea4d
 
 
-    def getPlot(self, params):
+    def g_Plot(self, params):
         df = self.getData(params)
+<<<<<<< HEAD
         ticker = params['ticker']
         y_label = ticker
         year = params['year']
@@ -135,6 +168,20 @@ class DataAnalysisApp(server.App):
         week_n, week_m = map(int, range.split('-'))
 
         year_int = int(year)
+=======
+        data_type = params['data_type']
+        y_label = data_type
+        data_year = params['year']
+        data_region = params['region']
+        region_name = self.Data_Region_List(data_region)
+        data_range = params['range']
+        start_week, end_week = map(int, data_range.split('-'))
+
+        year_int = int(data_year)
+        year_decimal = math.modf(float(data_year))[0]
+        if year_decimal == 0.0:
+            year_str = f"{year_int} рік"
+>>>>>>> 7a0d049b59c8aa06a9b0418caef091b6f8a7ea4d
 
         pllt, ax = plt.subplots()
         df.plot(x='Week', y=ticker, legend=True, ax=ax)
