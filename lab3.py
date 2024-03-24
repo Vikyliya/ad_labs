@@ -1,26 +1,32 @@
 from spyre import server
 import pandas as pd
 import matplotlib.pyplot as plt
-import math
 
+<<<<<<< HEAD
+class DataAnalysisApp(server.App):
+=======
 class StockExample(server.App):
-    title = "NOAA data dropdown"
+>>>>>>> 7a0d049b59c8aa06a9b0418caef091b6f8a7ea4d
+    title = "NOAA data vizualization"
 
     inputs = [
         {
             "type": "dropdown",
-            "label": "Оберіть тип індексу для графіку",
+            "label": "NOAA data dropdown",
             "options": [
                 {"label": "VCI", "value": "VCI"},
                 {"label": "TCI", "value": "TCI"},
-                {"label": "VHI", "value": "VHI"}
-            ],
+                {"label": "VHI", "value": "VHI"}],
+<<<<<<< HEAD
+            "key": "ticker",
+=======
             "key": "data_type",
-            "action_id": "update_data"
-        },
+>>>>>>> 7a0d049b59c8aa06a9b0418caef091b6f8a7ea4d
+            "action_id": "update_data"},
+        
         {
             "type": "dropdown",
-            "label": "Select region:",
+            "label": "Region dropdown",
             "options": [
                 {"label": "Вінницька", "value": "1"},
                 {"label": "Волинська", "value": "2"},
@@ -48,64 +54,73 @@ class StockExample(server.App):
                 {"label": "Чернігівська", "value": "24"},
                 {"label": "Крим", "value": "25"},
                 {"label": "Київ", "value": "26"},
-                {"label": "Севастополь", "value": "27"}, 
-            ],
+                {"label": "Севастополь", "value": "27"}],
             "key": "region",
-            "action_id": "update_data"
-        },
+            "action_id": "update_data"},
+        
         {
             "type": "text",
-            "label": "Select range:",
+            "label": "Select range",
             "key": "range",
             "value": "9-10",
-            "action_id": "update_data"
-        },
-
+            "action_id": "update_data"},
+        
         {
             "type":'slider',
-            "label": 'Оберіть рік:',
+<<<<<<< HEAD
+            "label": 'Select year',
+=======
+            "label": 'Select year:',
+>>>>>>> 7a0d049b59c8aa06a9b0418caef091b6f8a7ea4d
             "min" : 1981,
             "max" : 2023,
             "key": 'year',
-            "action_id" : "update_data"
-            
-        },
-    ]
+            "action_id" : "update_data"}]
 
-    controls = [{"type": "hidden", "id": "update_data"}]
+    controls = [{"type": "button", "label": "Update", "id": "update_data"}]
 
     tabs = ["Plot", "Table"]
 
-    outputs = [
-        {
-            "type": "plot",
-            "id": "plot",
-            "control_id": "update_data",
-            "tab": "Plot"
-        },
-        {
-            "type": "table",
-            "id": "table_id",
-            "control_id": "update_data",
-            "tab": "Table",
-            "on_page_load": True
-        }
-    ]
+    outputs = [ { "type": "plot",
+                    "id": "plot",
+                    "control_id": "update_data",
+                    "tab": "Plot"},
+                { "type": "table",
+                    "id": "table_id",
+                    "control_id": "update_data",
+                    "tab": "Table",
+                    "on_page_load": True}]
 
+<<<<<<< HEAD
     def getData(self, params):
+        df = pd.read_csv('combined_data.csv')
         region = params['region']
-        week_interval = params['range']
+        range = params['range']
         year = params['year']
 
-        df = pd.read_csv('combined_data.csv')
         df = df[df['area'] == int(region)]
-        start_week, end_week = map(int, week_interval.split('-'))
-        df = df[(df['Week'] >= start_week) & (df['Week'] <= end_week) & (df['Year'] == int(year))]
+        week_n, week_m = map(int, range.split('-'))
+        df = df[(df['Week'] >= week_n) & (df['Week'] <= week_m) & (df['Year'] == int(year))]
 
         return df[['Year', 'Week', 'SMN', 'SMT', 'VCI', 'TCI', 'VHI']]
 
-    def getRegionName(self, region):
-        region_mapping = {
+    def getRegionList(self, region):
+=======
+    def g_Table(self, params):
+        data_region = params['region']
+        data_range = params['range']
+        data_year = params['year']
+
+        df = pd.read_csv('combined_data.csv')
+        df = df[df['area'] == int(data_region)]
+        start_week, end_week = map(int, data_range.split('-'))
+        df = df[(df['Week'] >= start_week) & (df['Week'] <= end_week) & (df['Year'] == int(data_year))]
+
+        return df[['Year', 'Week', 'SMN', 'SMT', 'VCI', 'TCI', 'VHI']]
+
+    def Data_Region_List(self, data_region):
+>>>>>>> 7a0d049b59c8aa06a9b0418caef091b6f8a7ea4d
+        region_list = {
             "1": "Вінничини",
             "2": "Волині",
             "3": "Дніпропетровщини",
@@ -130,37 +145,55 @@ class StockExample(server.App):
             "22": "Черкащини",
             "23": "Чернівецька",
             "24": "Чернігівщини",
-            "25": "Криму"
+            "25": "Криму",
+            "26": "Києва",
+            "27": "Севастополя"
         }
-        return region_mapping.get(region, "")
+<<<<<<< HEAD
+        return region_list.get(region, "")
+=======
+        return region_list.get(data_region, "")
+>>>>>>> 7a0d049b59c8aa06a9b0418caef091b6f8a7ea4d
 
 
-    def getPlot(self, params):
+    def g_Plot(self, params):
         df = self.getData(params)
-        data_type = params['data_type']
-        y_label = data_type
+<<<<<<< HEAD
+        ticker = params['ticker']
+        y_label = ticker
         year = params['year']
-        region = params['region']
-        region_name = self.getRegionName(region)
-        week_interval = params['range']
-        start_week, end_week = map(int, week_interval.split('-'))
+        data_region = params['region']
+        region= self.getRegionList(data_region)
+        range = params['range']
+        week_n, week_m = map(int, range.split('-'))
 
         year_int = int(year)
-        year_decimal = math.modf(float(year))[0]
+=======
+        data_type = params['data_type']
+        y_label = data_type
+        data_year = params['year']
+        data_region = params['region']
+        region_name = self.Data_Region_List(data_region)
+        data_range = params['range']
+        start_week, end_week = map(int, data_range.split('-'))
+
+        year_int = int(data_year)
+        year_decimal = math.modf(float(data_year))[0]
         if year_decimal == 0.0:
             year_str = f"{year_int} рік"
+>>>>>>> 7a0d049b59c8aa06a9b0418caef091b6f8a7ea4d
 
-        fig, ax = plt.subplots()
-        df.plot(x='Week', y=data_type, legend=False, ax=ax)
+        pllt, ax = plt.subplots()
+        df.plot(x='Week', y=ticker, legend=True, ax=ax)
         ax.set_ylabel(y_label)
         ax.set_xlabel("Тижні")
-        ax.set_title(f"{data_type} графік для {region_name}, {year_str}, {start_week}-{end_week} тижні")
+        ax.set_title(f"Графік для {region} за {year_int} рік протягом  {week_n}-{week_m} тижнів")
 
-        return fig
+        return pllt
 
     def getHTML(self, params):
         df = self.getData(params)
         return df.to_html()
 
-app = StockExample()
-app.launch(port=2020)
+app = DataAnalysisApp()
+app.launch(port=9093)
