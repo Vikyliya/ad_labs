@@ -1,2 +1,6 @@
 *.csv
+<<<<<<< HEAD
 vhi_data/
+=======
+.vhi_data/*
+>>>>>>> 1c8d69c5e5fde335d08dbdc53d41dbcad910442c
