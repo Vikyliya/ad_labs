@@ -152,4 +152,4 @@ class DataAnalysisApp(server.App):
         return df.to_html()
 
 app = DataAnalysisApp()
-app.launch(port=8080)
+app.launch(port=7070)
