@@ -54,7 +54,7 @@ class DataAnalysisApp(server.App):
             "type": "text",
             "label": "Select range",
             "key": "range",
-            "value": "9-10",
+            "value": "1-12",
             "action_id": "update_data"},
         
         {
@@ -76,6 +76,7 @@ class DataAnalysisApp(server.App):
                     "id": "plot",
                     "control_id": "update_data",
                     "tab": "Plot"},
+               
                 { "type": "table",
                     "id": "table_id",
                     "control_id": "update_data",
@@ -87,10 +88,10 @@ class DataAnalysisApp(server.App):
         region = params['region']
         range = params['range']
         year = params['year']
-
-        df = df[df['area'] == int(region)]
         week_n, week_m = map(int, range.split('-'))
-        df = df[(df['Week'] >= week_n) & (df['Week'] <= week_m) & (df['Year'] == int(year))]
+        
+        df = df[df['area'] == int(region)]
+        df = df[(df['Week'].between(week_n, week_m)) & (df['Year'] == int(year))]
 
         return df[['Year', 'Week', 'SMN', 'SMT', 'VCI', 'TCI', 'VHI']]
 
@@ -143,7 +144,7 @@ class DataAnalysisApp(server.App):
         df.plot(x='Week', y=ticker, legend=True, ax=ax)
         ax.set_ylabel(y_label)
         ax.set_xlabel("Тижні")
-        ax.set_title(f"Графік для {region} за {year_int} рік протягом  {week_n}-{week_m} тижнів")
+        ax.set_title(f"Графік для {region} за {year_int} рік протягом {week_n}-{week_m} тижнів")
 
         return pllt
 
