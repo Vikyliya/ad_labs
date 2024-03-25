@@ -65,8 +65,11 @@ class DataAnalysisApp(server.App):
             "key": 'year',
             "action_id" : "update_data"}]
 
-    controls = [{"type": "button", "label": "Update", "id": "update_data"}]
-
+    controls = [{
+        "type": "button",
+        "id": "update_data",
+        "label": "Update"}]
+    
     tabs = ["Plot", "Table"]
 
     outputs = [ { "type": "plot",
@@ -149,4 +152,4 @@ class DataAnalysisApp(server.App):
         return df.to_html()
 
 app = DataAnalysisApp()
-app.launch(port=9093)
+app.launch(port=8080)
