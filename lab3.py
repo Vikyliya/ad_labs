@@ -92,7 +92,7 @@ class DataAnalysisApp(server.App):
         
         df = df[df['area'] == int(region)]
         df = df[(df['Week'].between(week_n, week_m)) & (df['Year'] == int(year))]
-
+        
         return df[['Year', 'Week', 'SMN', 'SMT', 'VCI', 'TCI', 'VHI']]
 
     def getRegionList(self, region):
@@ -131,26 +131,25 @@ class DataAnalysisApp(server.App):
     def getPlot(self, params):
         df = self.getData(params)
         ticker = params['ticker']
-        y_label = ticker
         year = params['year']
+        range = params['range']
         data_region = params['region']
         region= self.getRegionList(data_region)
-        range = params['range']
+        
         week_n, week_m = map(int, range.split('-'))
-
-        year_int = int(year)
 
         pllt, ax = plt.subplots()
         df.plot(x='Week', y=ticker, legend=True, ax=ax)
-        ax.set_ylabel(y_label)
+        ax.set_ylabel(ticker)
         ax.set_xlabel("Тижні")
-        ax.set_title(f"Графік для {region} за {year_int} рік протягом {week_n}-{week_m} тижнів")
+        ax.set_title(f"Графік для {region} за {year} рік протягом {week_n}-{week_m} тижнів")
 
         return pllt
 
     def getHTML(self, params):
         df = self.getData(params)
         return df.to_html()
-
-app = DataAnalysisApp()
-app.launch(port=7070)
+    
+if __name__ == '__main__':
+    app = DataAnalysisApp()
+    app.launch(port=7070)
