@@ -143,7 +143,6 @@ class DataAnalysisApp(server.App):
         ax.set_ylabel(ticker)
         ax.set_xlabel("Тижні")
         ax.set_title(f"Графік для {region} за {year} рік протягом {week_n}-{week_m} тижнів")
-
         return pllt
 
     def getHTML(self, params):
