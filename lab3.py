@@ -139,7 +139,7 @@ class DataAnalysisApp(server.App):
         week_n, week_m = map(int, range.split('-'))
 
         pllt, ax = plt.subplots()
-        df.plot(x='Week', y=ticker, legend=True, ax=ax)
+        df.plot(x='Week', y=ticker, legend=True, ax=ax, color='red')
         ax.set_ylabel(ticker)
         ax.set_xlabel("Тижні")
         ax.set_title(f"Графік для {region} за {year} рік протягом {week_n}-{week_m} тижнів")
