@@ -1,4 +1,6 @@
 *.csv
 vhi_data/*
-envlab/*
+eenv/*
+lab4/*.txt
+
 
