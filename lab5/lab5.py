@@ -1,6 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from matplotlib.widgets import Slider, Button, CheckButtons
+from matplotlib.widgets import Slider, Button, CheckButtons, RadioButtons
 from scipy.signal import iirfilter, filtfilt
 
 
@@ -91,6 +91,7 @@ fs_slider = Slider(plt.axes([0.55, 0.3, 0.3, 0.03]), 'Частота дискр�
 cutoff_frequency_slider = Slider(plt.axes([0.55, 0.25, 0.3, 0.03]), 'Частота зрізу', valmin=1, valmax=100, valinit=cutoff_frequency_init)
 
 color = 'plum'
+
 # чекбокс фільтру
 rax_filter = plt.axes([0.8, 0.1, 0.15, 0.04], facecolor=color)
 show_filter_check = CheckButtons(rax_filter, ['Show Filtered'], [True])

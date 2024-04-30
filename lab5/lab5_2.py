@@ -1,7 +1,7 @@
 import numpy as np
 from bokeh.plotting import figure, curdoc
 from bokeh.layouts import column, row
-from bokeh.models import ColumnDataSource, Slider, CheckboxGroup, ColorPicker, Button, Select
+from bokeh.models import ColumnDataSource, Slider, CheckboxGroup, Button, Select
 import subprocess
 
 # Початкові значення параметрів
@@ -44,14 +44,10 @@ source = ColumnDataSource(data=dict(t=t, y=y, filtered=filtered))
 # Створюємо графік для зашумленої гармоніки
 p1 = figure(title="Графік гармоніки y(t) = A ∗ sin(ω ∗ t + φ)", x_axis_label='Час', y_axis_label='Амплітуда', width=1200, height=250)
 line = p1.line('t', 'y', source=source, line_width=2, line_color="darkorchid")
-picker1 = ColorPicker(title="Line Color", color="darkorchid")
-picker1.js_link('color', line.glyph, 'line_color')
 
 # Створюємо графік для відфільтрованого сигналу
 p2 = figure(title="Відфільтрована гармоніка", x_axis_label='Час', y_axis_label='Амплітуда', width=1200, height=250)
 line2 = p2.line('t', 'filtered', source=source, line_width=2, line_color="blue")
-picker2 = ColorPicker(title="Line Color", color="blue")
-picker2.js_link('color', line2.glyph, 'line_color')
 
 # Створюємо інтерактивні елементи для керування параметрами
 amplitude_slider = Slider(start=0.1, end=10, value=amplitude_init, step=0.1, title="Амплітуда")
@@ -99,14 +95,12 @@ reset_button.on_click(reset)
 window_size_select.on_change('value', update)
 
 
-
 # Розмістимо слайдери в два стовпці
 slider_layout = column(
     row(p1),
     row(p2),
     row(amplitude_slider, frequency_slider, phase_slider),
-    row(noise_mean_slider, noise_cov_slider, reset_button, picker1, picker2, show_noise_checkbox, window_size_select),
-    sizing_mode="scale_width"
+    row(noise_mean_slider, noise_cov_slider, reset_button, show_noise_checkbox, window_size_select)
 )
 
 layout = column(slider_layout)
