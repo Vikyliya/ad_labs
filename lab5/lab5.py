@@ -37,9 +37,7 @@ def update(val):
 
     y = harmonic_with_noise(t, amplitude, frequency, phase, noise_mean, noise_covariance, show_noise)
     l.set_ydata(y)
-
-    # filtered = filtered_signal(y, fs, cutoff_frequency, order)
-    # l_filtered.set_ydata(filtered)
+    
     if show_filter_check.get_status()[0]:
         filtered = filtered_signal(y, fs, cutoff_frequency, order)
         l_filtered.set_ydata(filtered)

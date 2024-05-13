@@ -42,11 +42,11 @@ filtered = median_filter(y, window_size=5)
 source = ColumnDataSource(data=dict(t=t, y=y, filtered=filtered))
 
 # Створюємо графік для зашумленої гармоніки
-p1 = figure(title="Графік гармоніки y(t) = A ∗ sin(ω ∗ t + φ)", x_axis_label='Час', y_axis_label='Амплітуда', width=1200, height=250)
+p1 = figure(title="Графік гармоніки y(t) = A ∗ sin(ω ∗ t + φ)", x_axis_label='Час', y_axis_label='Амплітуда', width=1350, height=260)
 line = p1.line('t', 'y', source=source, line_width=2, line_color="darkorchid")
 
 # Створюємо графік для відфільтрованого сигналу
-p2 = figure(title="Відфільтрована гармоніка", x_axis_label='Час', y_axis_label='Амплітуда', width=1200, height=250)
+p2 = figure(title="Відфільтрована гармоніка", x_axis_label='Час', y_axis_label='Амплітуда', width=1350, height=260)
 line2 = p2.line('t', 'filtered', source=source, line_width=2, line_color="blue")
 
 # Створюємо інтерактивні елементи для керування параметрами
@@ -83,6 +83,8 @@ def reset():
     phase_slider.value = phase_init
     noise_mean_slider.value = noise_mean_init
     noise_cov_slider.value = noise_covariance_init
+    global noise_init
+    noise_init = np.random.normal(0, 1, 1000)
 
 
 amplitude_slider.on_change('value', update)
